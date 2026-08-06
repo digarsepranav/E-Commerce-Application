@@ -1,12 +1,14 @@
-package com.app.ecom_application;
+package com.app.ecom_application.controller;
 
+import com.app.ecom_application.dto.UserRequest;
+import com.app.ecom_application.dto.UserResponse;
+import com.app.ecom_application.model.User;
+import com.app.ecom_application.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,21 +21,21 @@ public class UserController {
 
     @GetMapping //("/api/users")
 //    @RequestMapping(value = "/api/users", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> getAllUser() {
+    public ResponseEntity<List<UserResponse>> getAllUser() {
         return new ResponseEntity<>(userService.fetchAllUsers(), HttpStatus.OK);
         // return ResponseEntity.ok(userService.fetchAllUsers());
         // Can display using this what response you want to give the user - Customizable Status code
     }
 
     @PostMapping//("/api/users")
-    public ResponseEntity<String> createUser(@RequestBody User user) {
-        userService.createUser(user);
-        return new ResponseEntity<>("User added successfully", HttpStatus.OK);
+    public ResponseEntity<String> createUser(@RequestBody UserRequest userRequest) {
+        userService.createUser(userRequest);
+        return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
     }
 
     //get particular user
     @GetMapping("/{id}")//("/api/users/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
 //        User user = userService.fetchUser(id);
 //        if (user == null) {
 //            return ResponseEntity.notFound().build();
@@ -43,12 +45,11 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User updateUser) {
-        boolean updated = userService.updateUser(id, updateUser);
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserRequest updateUserRequest) {
+        boolean updated = userService.updateUser(id, updateUserRequest);
         if (updated) {
             return ResponseEntity.ok("User updated successfully");
-        }
-        else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }

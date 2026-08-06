@@ -1,10 +1,7 @@
-package com.app.ecom_application;
+package com.app.ecom_application.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import com.app.ecom_application.dto.AddressDTO;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +15,12 @@ public class User {
     private long id;
     private String firstName;
     private String lastName;
+    private String email;
+    private long phoneNo;
+    private UserRole userRole;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
 
 //    public User(long id, String firstName, String lastName) {
 //        this.id = id;
