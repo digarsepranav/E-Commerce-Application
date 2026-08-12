@@ -1,4 +1,4 @@
-package com.app.ecom_application.service;
+package com.app.ecom_application.dto;
 
 import lombok.Data;
 
